@@ -18,14 +18,11 @@ const jsLoaders = () => {
             }
         }
     ]
-
     if (isDev) {
         loaders.push('eslint-loader')
     }
-
     return loaders
 }
-
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
@@ -43,7 +40,7 @@ module.exports = {
     },
     devtool: isDev ? 'source-map' : false,
     devServer: {
-        port: 3000,
+        port: 4201,
         hot: isDev
     },
     plugins: [
