@@ -12,7 +12,7 @@ const filename = ext => isDev ? `bundle.${ext}` : `bundle.[hash]${ext}`
 module.exports = {
     context: path.resolve(__dirname, 'src'),
     mode: 'development',
-    entry: './index.js',
+    entry: ['@babel/polyfill', './index.js'],
     output: {
         filename: filename('js'),
         path: path.resolve(__dirname, 'dist')
@@ -26,16 +26,8 @@ module.exports = {
     },
     devtool: isDev ? 'source-map' : false,
     devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        port: 4200,
-        hot: isDev,
-        allowedHosts: [
-            'host.com',
-            'subdomain.host.com',
-            'subdomain2.host.com',
-            'host2.com'
-        ]
+        port: 4201,
+        hot: isDev
     },
 
     plugins: [
@@ -54,7 +46,7 @@ module.exports = {
                 ]
         }),
         new MiniCssExtractPlugin({
-            filename: filename('js')
+            filename: filename('css')
         })
     ],
     module: {
@@ -72,6 +64,16 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader",
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: {
+                    loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env']
                     }
